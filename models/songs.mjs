@@ -1,4 +1,4 @@
-export default function usersModel(sequelize, DataTypes) {
+export default function songsModel(sequelize, DataTypes) {
   return sequelize.define('users', {
     id: {
       allowNull: false,
