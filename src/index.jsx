@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import "react-simple-keyboard/build/css/index.css";
 import './styles.scss';
 
 import App from './App.jsx';

@@ -21,6 +21,13 @@ module.exports = {
           'sass-loader',
         ],
       },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader', // step 2: injects Javascript into the DOM
+          'css-loader', // step 1: turns css into valid Javascript
+        ],
+      },
     ],
   },
 };
