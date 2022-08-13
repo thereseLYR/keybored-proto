@@ -12,18 +12,9 @@ export default function Keeb() {
     console.log("Input changed", input);
   };
 
-  // const handleShift = () => {
-  //   const newLayoutName = layout === "default" ? "shift" : "default";
-  //   setLayout(newLayoutName);
-  // };
-
   const onKeyPress = (button) => {
-    // console.log("Button pressed", button);
-
-    /**
-     * If you want to handle the shift and caps lock buttons
-     */
-    if (button === "{shift}" || button === "{lock}") handleShift();
+    setInput(button);
+    console.log("Key Pressed", button);
   };
 
   const onChangeInput = (event) => {
@@ -33,7 +24,7 @@ export default function Keeb() {
   };
 
   return (
-    <div className="App">
+    <div className="simple-keyboard">
       <input
         value={input}
         placeholder={"Tap on the virtual keyboard to start"}
@@ -44,6 +35,11 @@ export default function Keeb() {
         layoutName={layout}
         onChange={onChange}
         onKeyPress={onKeyPress}
+        physicalKeyboardHighlight={true}
+        physicalKeyboardHighlightPress={false}
+        buttonTheme={[
+          { class: "enabled-keys", buttons: "A S D F a s d f J K L : j k l ;" },
+        ]}
       />
     </div>
   );
