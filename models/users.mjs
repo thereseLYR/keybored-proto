@@ -8,17 +8,13 @@ export default function usersModel(sequelize, DataTypes) {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      firstName: {
+      username: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
-      lastName: {
+      password: {
         type: DataTypes.STRING,
-      },
-      email: {
-        type: DataTypes.STRING,
-        password: {
-          tyoe: DataTypes.STRING,
-        },
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

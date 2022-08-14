@@ -4,9 +4,8 @@ import methodOverride from "method-override";
 import webpack from "webpack";
 import webpackDevMiddleware from "webpack-dev-middleware";
 import webpackHotMiddleware from "webpack-hot-middleware";
-
+import UserRouter from "./routes/user.routes.mjs";
 import webpackConfig from "./webpack_conf/webpack.dev.js";
-import bindRoutes from "./routes.mjs";
 
 // Initialise Express instance
 const app = express();
@@ -45,9 +44,10 @@ if (env === "development") {
   );
 }
 
-// Bind route definitions to the Express application
-bindRoutes(app);
+const routers = [UserRouter];
+routers.forEach((router) => app.use("/", router));
 
 // Set Express to listen on the given port
 const PORT = process.env.PORT || 3004;
 app.listen(PORT);
+console.log(`🚀 App listening on the port ${PORT}`);
