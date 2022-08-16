@@ -8,15 +8,16 @@ export default function Keeb() {
   const keyboard = useRef();
 
   const isAllowedCharacter = (input) => {
-    const regex = /[ASDFJKL:asdfjkl;]/g;
+    const regex = /^[ASDFJKL:asdfjkl;\b]*$/g
     const isMatch = regex.test(input);
-    console.log(isMatch);
+    console.log('evaluating input:', input)
+    console.log("matches regex?", isMatch);
     return isMatch;
   };
 
   const onChange = (input) => {
     // const input = input.target.value;
-    console.log('onChange input:', input)
+    console.log("onChange input:", input);
     if (isAllowedCharacter(input)) {
       setInput(input);
       console.log("Input changed", input);
@@ -24,17 +25,19 @@ export default function Keeb() {
   };
 
   const onKeyPress = (button) => {
-    // const input = button.target.value;
     if (isAllowedCharacter(button)) {
+      console.log('taking values from physical keypress')
       setInput(button);
       console.log("Key Pressed", button);
     }
   };
 
   const onChangeInput = (event) => {
-    if (isAllowedCharacter(event.target.value)) {
+    const input = event.target.value;
+    console.log('editing via input box')
+    if (isAllowedCharacter(input)) {
       setInput(input);
-      // keyboard.current.setInput(input);
+      keyboard.current.setInput(input);
     }
   };
 
@@ -54,9 +57,9 @@ export default function Keeb() {
         physicalKeyboardHighlight={true}
         physicalKeyboardHighlightPress={true}
         buttonTheme={[
-          { class: "enabled-keys", buttons: "A S D F a s d f J K L : j k l ;" },
+          { class: "enabled-keys", buttons: "A S D F a s d f J K L : j k l ; {bksp}" },
         ]}
-        inputPattern={/[ASDFJKL:asdfjkl;]/g}
+        inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
       />
     </div>
   );
