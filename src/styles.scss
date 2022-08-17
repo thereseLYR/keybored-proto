@@ -11,6 +11,14 @@ input {
   box-sizing: border-box;
 }
 
+.input-box {
+  background: grey;
+}
+
 .simple-keyboard {
   max-width: 850px;
+}
+
+.simple-keyboard .enabled-keys {
+  background: rgb(0, 255, 0, 0.7) !important;
 }
