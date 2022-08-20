@@ -26,33 +26,58 @@ export default function Keeb() {
     j: [0x90, 67, 127], // G4
     k: [0x90, 69, 127], // A4
     l: [0x90, 71, 127], // B4
-    ';': [0x90, 72, 127], // C5
+    ";": [0x90, 72, 127], // C5
   };
 
-  // to add playback function to some button by reading input and stitching the keys together
+  const noteMapOff = {
+    a: [0x80, 60, 0], // C4
+    s: [0x80, 62, 0], // D4
+    d: [0x80, 64, 0], // E4
+    f: [0x80, 65, 0], // F4
+    j: [0x80, 67, 0], // G4
+    k: [0x80, 69, 0], // A4
+    l: [0x80, 71, 0], // B4
+    ";": [0x80, 72, 0], // C5
+  };
+
+  const stitchInput = () => {
+    const songStr = input;
+    console.log("stitching...", songStr);
+
+    for (let i = 0; i < songStr.length; i++) {
+      setTimeout(function timer() {
+        const inputChar = songStr.charAt(i);
+        console.log(inputChar);
+        midiPort.send(noteMap[inputChar]).wait(500).send(noteMapOff[inputChar]);
+        // midiPort.send(noteMap[inputChar]).wait(500); // either one works, this version will let the note hold
+      }, (i + 1) * 250); // either 500 or 250 sounds ok
+    }
+  };
 
   const isAllowedCharacter = (input) => {
     const regex = /^[ASDFJKL:asdfjkl;\b]*$/g;
     const isMatch = regex.test(input);
-    console.log("evaluating isAllowedCharacter:", input);
-    console.log("matches regex?", isMatch);
+    // console.log("evaluating isAllowedCharacter:", input);
+    // console.log("matches regex?", isMatch);
     return isMatch;
   };
 
   const onChange = (input) => {
     if (isAllowedCharacter(input)) {
       setInput(input);
-      console.log("onChange input:", input);
+      // console.log("onChange input:", input);
     }
   };
 
   const onKeyPress = (button) => {
     if (isAllowedCharacter(button)) {
       setInput(button);
-      console.log("onKeypress key pressed", button);
-      console.log(typeof(button))
-      console.log(noteMap[button])
-      midiPort.send(noteMap[button]); 
+      // console.log("onKeypress key pressed", button);
+      // console.log(typeof(button))
+      // console.log(noteMap[button])
+
+      midiPort.send(noteMap[button]);
+      // midiPort.send(noteMap[button]).wait(500).send(noteMapOff[button]); // this doesnt make the note play for any longer than the line above
     }
   };
 
@@ -61,7 +86,7 @@ export default function Keeb() {
     if (isAllowedCharacter(input)) {
       setInput(input);
       keyboard.current.setInput(input);
-      console.log("onChangeInput");
+      // console.log("onChangeInput");
     }
   };
 
@@ -88,6 +113,7 @@ export default function Keeb() {
         ]}
         inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
       />
+      <button onClick={stitchInput}>PLAYBACK</button>
     </div>
   );
 }
