@@ -1,11 +1,13 @@
 import React, { useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import Keyboard from "react-simple-keyboard";
+import axios from "axios";
 // import JZZ from 'jazz-midi'
 
 export default function Keeb() {
   const [input, setInput] = useState("");
   const [layout, setLayout] = useState("default");
+  const [songTitle, setSongTitle] = useState('')
   const keyboard = useRef();
 
   // synth initialization
@@ -42,12 +44,12 @@ export default function Keeb() {
 
   const stitchInput = () => {
     const songStr = input;
-    console.log("stitching...", songStr);
+    // console.log("stitching...", songStr);
 
     for (let i = 0; i < songStr.length; i++) {
       setTimeout(function timer() {
         const inputChar = songStr.charAt(i);
-        console.log(inputChar);
+        // console.log(inputChar);
         midiPort.send(noteMap[inputChar]).wait(500).send(noteMapOff[inputChar]);
         // midiPort.send(noteMap[inputChar]).wait(500); // either one works, this version will let the note hold
       }, (i + 1) * 250); // either 500 or 250 sounds ok
@@ -90,6 +92,21 @@ export default function Keeb() {
     }
   };
 
+  // gotta pull the input string and post it somehow 
+  const onChangeTitle = (textInputEvent) => {
+    console.log(textInputEvent.target.value)
+    setSongTitle(textInputEvent.target.value)
+  }
+
+  const saveSongData = () => {
+    console.log('saving your song...')
+    const postPayload = {
+      title: songTitle, songData: input
+    }
+    console.log(postPayload)
+    axios.post('/save', postPayload)
+  }
+
   return (
     <div className="simple-keyboard">
       <input
@@ -114,6 +131,11 @@ export default function Keeb() {
         inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
       />
       <button onClick={stitchInput}>PLAYBACK</button>
+      <div>
+        <input id="titleInput" type="text" onChange={onChangeTitle}/>
+        <button onClick={saveSongData}>SAVE YOUR WORK</button>
+
+      </div>
     </div>
   );
 }
