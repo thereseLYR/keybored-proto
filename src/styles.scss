@@ -1,5 +1,5 @@
 body {
-  background-color: pink;
+  background-color: white;
 }
 
 input {
@@ -21,4 +21,8 @@ input {
 
 .simple-keyboard .enabled-keys {
   background: rgb(0, 255, 0, 0.7) !important;
+}
+
+.rootpage__button {
+  max-width: 30em;
 }

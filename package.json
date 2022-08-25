@@ -25,7 +25,7 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.7",
     "eslint": "^7.17.0",
@@ -54,14 +54,20 @@
     "webpack-merge": "^5.7.3"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.10.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "jazz-midi": "^1.7.6",
+    "js-cookie": "^3.0.1",
     "jssha": "^3.2.0",
     "method-override": "^3.0.0",
     "pg": "^8.5.1",
+    "react-router-dom": "^6.3.0",
     "react-simple-keyboard": "^3.4.180",
     "sequelize": "^6.3.5"
   }

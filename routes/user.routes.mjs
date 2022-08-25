@@ -11,6 +11,6 @@ const userController = new UserController(db);
 // GET register as the signup page
 // POST register as the signup
 router.post("/register", userController.postNewUser);
-router.post("/session", userController.postLoginSession);
+router.post("/login", userController.postLoginSession);
 
 export default router;
