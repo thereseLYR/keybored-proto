@@ -13,10 +13,10 @@ module.exports = {
         title: {
           type: Sequelize.STRING,
         },
-        songData: {
+        song_data: {
           type: Sequelize.STRING,
         },
-        creatorId: {
+        creator_id: {
           type: Sequelize.INTEGER,
         },
         created_at: {

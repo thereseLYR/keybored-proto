@@ -1,11 +1,12 @@
-import React, { useRef, useState } from "react";
-import ReactDOM from "react-dom";
+import axios from "axios";
+import { useRef, useState } from "react";
 import Keyboard from "react-simple-keyboard";
 // import JZZ from 'jazz-midi'
 
 export default function Keeb() {
   const [input, setInput] = useState("");
   const [layout, setLayout] = useState("default");
+  const [songTitle, setSongTitle] = useState("");
   const keyboard = useRef();
 
   // synth initialization
@@ -42,12 +43,9 @@ export default function Keeb() {
 
   const stitchInput = () => {
     const songStr = input;
-    console.log("stitching...", songStr);
-
     for (let i = 0; i < songStr.length; i++) {
       setTimeout(function timer() {
         const inputChar = songStr.charAt(i);
-        console.log(inputChar);
         midiPort.send(noteMap[inputChar]).wait(500).send(noteMapOff[inputChar]);
         // midiPort.send(noteMap[inputChar]).wait(500); // either one works, this version will let the note hold
       }, (i + 1) * 250); // either 500 or 250 sounds ok
@@ -57,25 +55,18 @@ export default function Keeb() {
   const isAllowedCharacter = (input) => {
     const regex = /^[ASDFJKL:asdfjkl;\b]*$/g;
     const isMatch = regex.test(input);
-    // console.log("evaluating isAllowedCharacter:", input);
-    // console.log("matches regex?", isMatch);
     return isMatch;
   };
 
   const onChange = (input) => {
     if (isAllowedCharacter(input)) {
       setInput(input);
-      // console.log("onChange input:", input);
     }
   };
 
   const onKeyPress = (button) => {
     if (isAllowedCharacter(button)) {
       setInput(button);
-      // console.log("onKeypress key pressed", button);
-      // console.log(typeof(button))
-      // console.log(noteMap[button])
-
       midiPort.send(noteMap[button]);
       // midiPort.send(noteMap[button]).wait(500).send(noteMapOff[button]); // this doesnt make the note play for any longer than the line above
     }
@@ -86,8 +77,26 @@ export default function Keeb() {
     if (isAllowedCharacter(input)) {
       setInput(input);
       keyboard.current.setInput(input);
-      // console.log("onChangeInput");
     }
+  };
+
+  const onChangeTitle = (textInputEvent) => {
+    setSongTitle(textInputEvent.target.value);
+  };
+
+  const saveSongData = () => {
+    console.log("saving your song...");
+    const postPayload = {
+      title: songTitle,
+      songData: input,
+    };
+    console.log(postPayload);
+
+    // TODO: handle errors - missing user_id in cookies, bad
+    axios
+      .post("/songs", postPayload)
+      .then(setSongTitle(""))
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -114,6 +123,10 @@ export default function Keeb() {
         inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
       />
       <button onClick={stitchInput}>PLAYBACK</button>
+      <div>
+        <input id="titleInput" type="text" onChange={onChangeTitle} />
+        <button onClick={saveSongData}>SAVE YOUR WORK</button>
+      </div>
     </div>
   );
 }
