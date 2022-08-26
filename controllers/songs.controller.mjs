@@ -12,10 +12,12 @@ export default function initSongsController(db) {
     // okay it posts
     // but now idk how to attach it to the user lol
     const body = request.body;
+    console.log(parseInt(request.cookies.user_id))
     try {
       const result = await db.Songs.create({
-        title: body.songTitle,
+        title: body.title,
         songData: body.songData, 
+        creatorId: parseInt(request.cookies.user_id)
       });
       console.log("postNewSong result: ", result.toJSON());
       response.send(`new song saved successfully with song id: ${result.id}`);

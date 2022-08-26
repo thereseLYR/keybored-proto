@@ -94,7 +94,7 @@ export default function Keeb() {
 
   // gotta pull the input string and post it somehow 
   const onChangeTitle = (textInputEvent) => {
-    console.log(textInputEvent.target.value)
+    // console.log(textInputEvent.target.value)
     setSongTitle(textInputEvent.target.value)
   }
 
