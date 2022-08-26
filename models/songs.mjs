@@ -1,5 +1,5 @@
 export default function songsModel(sequelize, DataTypes) {
-  return sequelize.define('users', {
+  return sequelize.define('songs', {
     id: {
       allowNull: false,
       autoIncrement: true,
