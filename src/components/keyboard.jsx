@@ -44,12 +44,9 @@ export default function Keeb() {
 
   const stitchInput = () => {
     const songStr = input;
-    // console.log("stitching...", songStr);
-
     for (let i = 0; i < songStr.length; i++) {
       setTimeout(function timer() {
         const inputChar = songStr.charAt(i);
-        // console.log(inputChar);
         midiPort.send(noteMap[inputChar]).wait(500).send(noteMapOff[inputChar]);
         // midiPort.send(noteMap[inputChar]).wait(500); // either one works, this version will let the note hold
       }, (i + 1) * 250); // either 500 or 250 sounds ok
@@ -59,25 +56,18 @@ export default function Keeb() {
   const isAllowedCharacter = (input) => {
     const regex = /^[ASDFJKL:asdfjkl;\b]*$/g;
     const isMatch = regex.test(input);
-    // console.log("evaluating isAllowedCharacter:", input);
-    // console.log("matches regex?", isMatch);
     return isMatch;
   };
 
   const onChange = (input) => {
     if (isAllowedCharacter(input)) {
       setInput(input);
-      // console.log("onChange input:", input);
     }
   };
 
   const onKeyPress = (button) => {
     if (isAllowedCharacter(button)) {
       setInput(button);
-      // console.log("onKeypress key pressed", button);
-      // console.log(typeof(button))
-      // console.log(noteMap[button])
-
       midiPort.send(noteMap[button]);
       // midiPort.send(noteMap[button]).wait(500).send(noteMapOff[button]); // this doesnt make the note play for any longer than the line above
     }
@@ -88,13 +78,10 @@ export default function Keeb() {
     if (isAllowedCharacter(input)) {
       setInput(input);
       keyboard.current.setInput(input);
-      // console.log("onChangeInput");
     }
   };
 
-  // gotta pull the input string and post it somehow 
   const onChangeTitle = (textInputEvent) => {
-    // console.log(textInputEvent.target.value)
     setSongTitle(textInputEvent.target.value)
   }
 
