@@ -104,7 +104,7 @@ export default function Keeb() {
       title: songTitle, songData: input
     }
     console.log(postPayload)
-    axios.post('/save', postPayload)
+    axios.post('/songs', postPayload)
   }
 
   return (

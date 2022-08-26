@@ -1,5 +1,5 @@
 export default function initSongsController(db) {
-  const something = async (request, response) => {
+  const getAllSongs = async (request, response) => {
     try {
       const songs = await db.Songs.findAll();
       response.send({ songs });
@@ -9,15 +9,15 @@ export default function initSongsController(db) {
   };
 
   const postNewSong = async (request, response) => {
-    // okay it posts
-    // but now idk how to attach it to the user lol
+    // currently adds a new row every time the save button is clicked
+    // to upgrade to findOrCreate later
     const body = request.body;
-    console.log(parseInt(request.cookies.user_id))
+    console.log(parseInt(request.cookies.user_id));
     try {
       const result = await db.Songs.create({
         title: body.title,
-        songData: body.songData, 
-        creatorId: parseInt(request.cookies.user_id)
+        songData: body.songData,
+        creatorId: parseInt(request.cookies.user_id),
       });
       console.log("postNewSong result: ", result.toJSON());
       response.send(`new song saved successfully with song id: ${result.id}`);
@@ -27,7 +27,7 @@ export default function initSongsController(db) {
   };
 
   return {
-    something,
-    postNewSong
+    getAllSongs,
+    postNewSong,
   };
 }
