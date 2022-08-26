@@ -1,13 +1,12 @@
-import React, { useRef, useState } from "react";
-import ReactDOM from "react-dom";
-import Keyboard from "react-simple-keyboard";
 import axios from "axios";
+import { useRef, useState } from "react";
+import Keyboard from "react-simple-keyboard";
 // import JZZ from 'jazz-midi'
 
 export default function Keeb() {
   const [input, setInput] = useState("");
   const [layout, setLayout] = useState("default");
-  const [songTitle, setSongTitle] = useState('')
+  const [songTitle, setSongTitle] = useState("");
   const keyboard = useRef();
 
   // synth initialization
@@ -82,17 +81,23 @@ export default function Keeb() {
   };
 
   const onChangeTitle = (textInputEvent) => {
-    setSongTitle(textInputEvent.target.value)
-  }
+    setSongTitle(textInputEvent.target.value);
+  };
 
   const saveSongData = () => {
-    console.log('saving your song...')
+    console.log("saving your song...");
     const postPayload = {
-      title: songTitle, songData: input
-    }
-    console.log(postPayload)
-    axios.post('/songs', postPayload)
-  }
+      title: songTitle,
+      songData: input,
+    };
+    console.log(postPayload);
+
+    // TODO: handle errors - missing user_id in cookies, bad
+    axios
+      .post("/songs", postPayload)
+      .then(setSongTitle(""))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="simple-keyboard">
@@ -119,9 +124,8 @@ export default function Keeb() {
       />
       <button onClick={stitchInput}>PLAYBACK</button>
       <div>
-        <input id="titleInput" type="text" onChange={onChangeTitle}/>
+        <input id="titleInput" type="text" onChange={onChangeTitle} />
         <button onClick={saveSongData}>SAVE YOUR WORK</button>
-
       </div>
     </div>
   );
