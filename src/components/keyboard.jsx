@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Keyboard from "react-simple-keyboard";
 // import JZZ from 'jazz-midi'
 
@@ -7,6 +7,7 @@ export default function Keeb() {
   const [input, setInput] = useState("");
   const [layout, setLayout] = useState("default");
   const [songTitle, setSongTitle] = useState("");
+  const [titleBoxActive, setTitleBoxActive] = useState(false);
   const keyboard = useRef();
 
   // synth initialization
@@ -55,33 +56,24 @@ export default function Keeb() {
   const isAllowedCharacter = (input) => {
     const regex = /^[ASDFJKL:asdfjkl;\b]*$/g;
     const isMatch = regex.test(input);
+    console.log('input tested:', input)
+    console.log(isMatch)
+    // backspace input, which is tested as {bksp} doesnt remove last character from input even when isMatch is overriden
     return isMatch;
   };
 
-  const onChange = (input) => {
-    if (isAllowedCharacter(input)) {
-      setInput(input);
-    }
-  };
-
   const onKeyPress = (button) => {
-    if (isAllowedCharacter(button)) {
-      setInput(button);
+    if (isAllowedCharacter(button) && titleBoxActive == false) {
+      setInput(input + button);
       midiPort.send(noteMap[button]);
       // midiPort.send(noteMap[button]).wait(500).send(noteMapOff[button]); // this doesnt make the note play for any longer than the line above
     }
   };
 
-  const onChangeInput = (event) => {
-    const input = event.target.value;
-    if (isAllowedCharacter(input)) {
-      setInput(input);
-      keyboard.current.setInput(input);
-    }
-  };
-
   const onChangeTitle = (textInputEvent) => {
-    setSongTitle(textInputEvent.target.value);
+    if (titleBoxActive === true) {
+      setSongTitle(textInputEvent.target.value);
+    }
   };
 
   const saveSongData = () => {
@@ -93,6 +85,8 @@ export default function Keeb() {
     console.log(postPayload);
 
     // TODO: handle errors - missing user_id in cookies, bad
+    // best if we have a conditional modal that pops up if the user clicks on the save button without any login cookies
+    // annoy them into making an acount
     axios
       .post("/songs", postPayload)
       .then(setSongTitle(""))
@@ -104,13 +98,12 @@ export default function Keeb() {
       <input
         value={input}
         placeholder={"Tap on the virtual keyboard to start"}
-        onChange={onChangeInput}
         className="input-box"
+        disabled
       />
       <Keyboard
         keyboardRef={(r) => (keyboard.current = r)}
         layoutName={layout}
-        onChange={onChange}
         onKeyPress={onKeyPress}
         physicalKeyboardHighlight={true}
         physicalKeyboardHighlightPress={true}
@@ -124,7 +117,13 @@ export default function Keeb() {
       />
       <button onClick={stitchInput}>PLAYBACK</button>
       <div>
-        <input id="titleInput" type="text" onChange={onChangeTitle} />
+        <input
+          id="titleInput"
+          type="text"
+          onChange={onChangeTitle}
+          onFocus={() => setTitleBoxActive(true)}
+          onBlur={() => setTitleBoxActive(false)}
+        />
         <button onClick={saveSongData}>SAVE YOUR WORK</button>
       </div>
     </div>
