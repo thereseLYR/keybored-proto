@@ -8,12 +8,22 @@ class UserController {
   postNewUser = async (request, response) => {
     const body = request.body;
     try {
+      // 1. add new user info to db
       const result = await this.db.Users.create({
         username: body.username,
         password: generateHash(body.password),
       });
       console.log("postNewUser result: ", result.toJSON());
-      response.send(`new user created successfully with user_id: ${result.id}`);
+
+      // 2. add user_id and login hash to cookies
+      const sessionHash = generateHash(result.username);
+      const userId = result.id;
+      response.cookie("user_id", `${userId}`);
+      response.cookie("logged_in", `${sessionHash}`);
+
+      response.json({
+        result: `new user created successfully with user_id: ${userId}`,
+      });
     } catch (err) {
       console.error(err);
     }
@@ -39,10 +49,12 @@ class UserController {
 
       // 3. use username as a session hash. Is this secure?
       const sessionHash = generateHash(username);
-
       response.cookie("user_id", `${user.id}`);
       response.cookie("logged_in", `${sessionHash}`);
-      response.send(`login successful, session generated: ${sessionHash}`);
+
+      response.json({
+        result: `login successful, session generated: ${sessionHash}`,
+      });
     } catch (err) {
       console.log(err);
     }
