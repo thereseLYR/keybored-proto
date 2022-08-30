@@ -1,5 +1,5 @@
-import { resolve } from "path";
 import { Router } from "express";
+import { resolve } from "path";
 
 const router = Router();
 

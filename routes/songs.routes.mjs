@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import db from "../models/index.mjs";
 import initSongsController from "../controllers/songs.controller.mjs";
+import db from "../models/index.model.mjs";
 
 const router = Router();
 
