@@ -71,7 +71,7 @@ export default function Keeb() {
   };
 
   const onChangeTitle = (textInputEvent) => {
-    if (titleBoxActive === true) {
+    if (titleBoxActive) {
       setSongTitle(textInputEvent.target.value);
     }
   };
