@@ -1,7 +1,10 @@
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import SaveIcon from "@mui/icons-material/Save";
+import { Button, IconButton, TextField } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import Keyboard from "react-simple-keyboard";
-// import JZZ from 'jazz-midi'
 
 export default function Keeb() {
   const [input, setInput] = useState("");
@@ -56,8 +59,6 @@ export default function Keeb() {
   const isAllowedCharacter = (input) => {
     const regex = /^[ASDFJKL:asdfjkl;\b]*$/g;
     const isMatch = regex.test(input);
-    console.log("input tested:", input);
-    console.log(isMatch);
     // backspace input, which is tested as {bksp} doesnt remove last character from input even when isMatch is overriden
     return isMatch;
   };
@@ -86,7 +87,7 @@ export default function Keeb() {
 
     axios
       .post("/songs", postPayload)
-      .then(setSongTitle(""))
+      // .then(setSongTitle(""))
       .catch((err) => {
         console.log(err);
         alert("Please register an account to save your work");
@@ -94,37 +95,66 @@ export default function Keeb() {
   };
 
   return (
-    <div className="simple-keyboard">
-      <input
-        value={input}
-        placeholder={"Tap on the virtual keyboard to start"}
-        className="input-box"
-        disabled
-      />
-      <Keyboard
-        keyboardRef={(r) => (keyboard.current = r)}
-        layoutName={layout}
-        onKeyPress={onKeyPress}
-        physicalKeyboardHighlight={true}
-        physicalKeyboardHighlightPress={true}
-        buttonTheme={[
-          {
-            class: "enabled-keys",
-            buttons: "A S D F a s d f J K L : j k l ; {bksp}",
-          },
-        ]}
-        inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
-      />
-      <button onClick={stitchInput}>PLAYBACK</button>
-      <div>
+    <div className="simple-keyboard" sx={{ mx: 2 }}>
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          my: 2,
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
+        <Grid item xs={10}>
+          <TextField
+            id="title-textfield"
+            type="string"
+            label="Title"
+            variant="standard"
+            autoComplete="off"
+            fullWidth={true}
+            onChange={onChangeTitle}
+            onFocus={() => setTitleBoxActive(true)}
+            onBlur={() => setTitleBoxActive(false)}
+          />
+        </Grid>
+        <Grid item xs>
+          <IconButton
+            onClick={saveSongData}
+            size="large"
+            disabled={!(input.length && songTitle.length)}
+          >
+            <SaveIcon fontSize="inherit" />
+          </IconButton>
+        </Grid>
+        <Grid item xs>
+          <IconButton onClick={stitchInput} size="large">
+            <PlayCircleIcon fontSize="inherit" />
+          </IconButton>
+        </Grid>
+      </Grid>
+      <div id="keyboard-sound">
         <input
-          id="titleInput"
-          type="text"
-          onChange={onChangeTitle}
-          onFocus={() => setTitleBoxActive(true)}
-          onBlur={() => setTitleBoxActive(false)}
+          value={input}
+          placeholder={"Tap on the virtual keyboard to start"}
+          className="input-box"
+          disabled
         />
-        <button onClick={saveSongData}>SAVE YOUR WORK</button>
+        <Keyboard
+          keyboardRef={(r) => (keyboard.current = r)}
+          layoutName={layout}
+          onKeyPress={onKeyPress}
+          physicalKeyboardHighlight={true}
+          physicalKeyboardHighlightPress={true}
+          buttonTheme={[
+            {
+              class: "enabled-keys",
+              buttons: "A S D F a s d f J K L : j k l ; {bksp}",
+            },
+          ]}
+          inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
+        />
       </div>
     </div>
   );
