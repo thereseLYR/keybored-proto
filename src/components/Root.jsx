@@ -7,9 +7,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "./Logo.jsx";
 
 const LoginButton = () => {
   const navigate = useNavigate();
@@ -45,7 +45,11 @@ const KeebsDialog = () => {
 
   return (
     <Box justifyContent="center" display="flex">
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        onClick={handleClickOpen}
+        style={{ backgroundColor: "white" }}
+      >
         Play as Guest
       </Button>
       <Dialog
@@ -78,14 +82,13 @@ const Home = (props) => {
   console.log(props);
   return (
     <Container maxWidth="sm">
-      <Stack gap={2}>
-        {/* TODO: Replace header with SVG Logo */}
-        <Typography variant="h1" component="h1" textAlign="center">
-          KeyBored
-        </Typography>
-        <LoginButton />
-        <KeebsDialog />
-      </Stack>
+      <Logo />
+      <Box>
+        <Stack gap={2}>
+          <LoginButton />
+          <KeebsDialog />
+        </Stack>
+      </Box>
     </Container>
   );
 };

@@ -8,13 +8,11 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "../Logo.jsx";
 
-const Logo = () => {
+const MainTitle = () => {
   return (
     <Box>
-      <Typography variant="h1" component="h1" textAlign="center">
-        KeyBored
-      </Typography>
       <Typography variant="h3" component="h1" textAlign="center">
         Register
       </Typography>
@@ -48,12 +46,14 @@ export default function Register() {
     <Container maxWidth="sm" className="keybored-logo">
       <Stack gap={2}>
         <Logo />
+        <MainTitle />
         <TextField
           id="username"
           label="Username"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          style={{ backgroundColor: "white" }}
         />
         <TextField
           id="password"
@@ -61,6 +61,7 @@ export default function Register() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          style={{ backgroundColor: "white" }}
         />
         <Button
           variant="contained"
