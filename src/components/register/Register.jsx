@@ -16,23 +16,23 @@ const Logo = () => {
         KeyBored
       </Typography>
       <Typography variant="h3" component="h1" textAlign="center">
-        Login
+        Register
       </Typography>
       <Typography variant="caption" component="h1" textAlign="center">
-        Login with existing account
+        Create an account to have more features in keybored
       </Typography>
     </Box>
   );
 };
 
-export default function Login() {
+export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  const handleRegistration = () => {
     axios
-      .post("/login", { username: username, password: password })
+      .post("/register", { username: username, password: password })
       .then((res) => {
         console.log(res);
         // setUser?
@@ -64,13 +64,13 @@ export default function Login() {
         />
         <Button
           variant="contained"
-          onClick={handleLogin}
+          onClick={handleRegistration}
           disabled={!(username.length && password.length)}
         >
-          Login
+          Register
         </Button>
-        <Link href="/register" textAlign="center">
-          Don't have an account? Click here to register
+        <Link href="/login" textAlign="center">
+          Already have an account? Click here to login!
         </Link>
       </Stack>
     </Container>
