@@ -56,8 +56,8 @@ export default function Keeb() {
   const isAllowedCharacter = (input) => {
     const regex = /^[ASDFJKL:asdfjkl;\b]*$/g;
     const isMatch = regex.test(input);
-    console.log('input tested:', input)
-    console.log(isMatch)
+    console.log("input tested:", input);
+    console.log(isMatch);
     // backspace input, which is tested as {bksp} doesnt remove last character from input even when isMatch is overriden
     return isMatch;
   };
@@ -84,13 +84,13 @@ export default function Keeb() {
     };
     console.log(postPayload);
 
-    // TODO: handle errors - missing user_id in cookies, bad
-    // best if we have a conditional modal that pops up if the user clicks on the save button without any login cookies
-    // annoy them into making an acount
     axios
       .post("/songs", postPayload)
       .then(setSongTitle(""))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        alert("Please register an account to save your work");
+      });
   };
 
   return (

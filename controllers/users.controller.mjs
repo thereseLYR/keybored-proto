@@ -59,6 +59,34 @@ class UserController {
       console.log(err);
     }
   };
+
+  verifyUser = async (request, response) => {
+    const userId = request.cookies.user_id;
+    const sessionHash = request.cookies.logged_in;
+    let user = null;
+
+    // 1. get username from user_id
+    try {
+      const user = await this.db.Users.findOne({
+        where: { id: userId },
+      });
+      console.log("user: ", user);
+    } catch (err) {
+      console.log(err);
+    }
+
+    if (user === null) {
+      return false;
+    }
+
+    return verifyHash(user.username, sessionHash);
+  };
+
+  logout = (request, response) => {
+    response.clearCookie("logged_in");
+    response.clearCookie("user_id");
+    response.json({ redirect: "/" });
+  };
 }
 
 export default UserController;
