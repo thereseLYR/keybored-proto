@@ -64,24 +64,24 @@ class SongController {
         },
       });
 
-      let queryResults;
-
       if (foundSong === null) {
         const newSong = await this.db.Songs.create({
           title: body.title,
           songData: body.songData,
           creatorId: parseInt(userId),
         });
-        queryResults = { newSong, created: true };
+        response.json({ song: newSong, created: true });
+        return;
       }
+
       const updatedSong = await this.db.Songs.update(
         {
           songData: body.songData,
         },
         { where: { title: body.title, creatorId: parseInt(userId) } }
       );
-      queryResults = { updatedSong, created: false };
-      console.log("query results:", queryResults);
+      response.json({ song: updatedSong, created: false });
+      return;
     } catch (err) {
       console.error(err);
     }
