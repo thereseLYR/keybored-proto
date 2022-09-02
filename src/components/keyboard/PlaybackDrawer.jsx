@@ -82,7 +82,9 @@ export default function PlaybackDrawer({ setSongTitle, setInput }) {
     <div>
       {["right"].map((anchor) => (
         <Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>Playlist</Button>
+          <Button variant="contained" onClick={toggleDrawer(anchor, true)}>
+            Show Playlist
+          </Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

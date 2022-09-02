@@ -3,8 +3,9 @@ import SaveIcon from "@mui/icons-material/Save";
 import { Button, IconButton, TextField } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Keyboard from "react-simple-keyboard";
+import Logo from "../Logo.jsx";
 import PlaylistDrawer from "./PlaybackDrawer.jsx";
 
 function KeyboardRow(props) {
@@ -181,7 +182,6 @@ export default function Keeb() {
         container
         spacing={0}
         direction="column"
-        justifyContent="center"
         alignItems="center"
         style={{
           height: "100%",
@@ -190,6 +190,8 @@ export default function Keeb() {
           display: "flex",
         }}
       >
+        <Logo />
+        <div id="div-spacing"></div>
         <UtilityRow
           onChangeTitleFunction={onChangeTitle}
           titleBoxStatusFunction={setTitleBoxActive}
@@ -198,8 +200,8 @@ export default function Keeb() {
           inputState={input}
           songTitleState={songTitle}
         />
-
         <KeyboardRow input={input} layout={layout} onKeyPress={onKeyPress} />
+        <div id="div-spacing"></div>
         <PlaylistDrawer setSongTitle={setSongTitle} setInput={setInput} />
       </Grid>
     </div>
