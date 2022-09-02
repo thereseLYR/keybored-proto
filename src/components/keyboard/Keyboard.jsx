@@ -6,12 +6,84 @@ import axios from "axios";
 import React, { useRef, useState } from "react";
 import Keyboard from "react-simple-keyboard";
 
+function KeyboardRow(props) {
+  const { input, layout, onKeyPress } = props;
+  return (
+    <Grid item container direction="row">
+      <Grid item xs={12} style={{ backgroundColor: "red" }}>
+        <div id="keyboard-sound">
+          <input
+            value={input}
+            placeholder={"Tap on the virtual keyboard to start"}
+            className="input-box"
+            disabled
+          />
+          <Keyboard
+            // keyboardRef={(r) => (keyboard.current = r)}
+            layoutName={layout}
+            onKeyPress={onKeyPress}
+            physicalKeyboardHighlight={true}
+            physicalKeyboardHighlightPress={true}
+            buttonTheme={[
+              {
+                class: "enabled-keys",
+                buttons: "A S D F a s d f J K L : j k l ; {bksp}",
+              },
+            ]}
+            inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
+          />
+        </div>
+      </Grid>
+    </Grid>
+  );
+}
+
+ function UtilityRow(props) {
+  const {onChangeTitleFunction, titleBoxStatusFunction, saveSongFunction, stitchInputFunction, inputState, songTitleState} = props
+    return (
+      <Grid item container direction="row">
+        <Grid item xs={10} style={{}} py={2}>
+          <TextField
+            id="title-textfield"
+            type="string"
+            label="Title"
+            variant="standard"
+            autoComplete="off"
+            fullWidth={true}
+            onChange={onChangeTitleFunction}
+            onFocus={() => titleBoxStatusFunction(true)}
+            onBlur={() => titleBoxStatusFunction(false)}
+          />
+        </Grid>
+
+        <Grid item xs={1} style={{ textAlign: "center" }} alignItems="center">
+          <IconButton
+            onClick={saveSongFunction}
+            size="large"
+            disabled={!(inputState.length && songTitleState.length)}
+          >
+            <SaveIcon fontSize="inherit" />
+          </IconButton>
+        </Grid>
+
+        <Grid item xs={1} style={{ textAlign: "center" }}>
+          <IconButton
+            onClick={stitchInputFunction}
+            size="large"
+            disabled={!songTitleState.length}
+          >
+            <PlayCircleIcon fontSize="inherit" />
+          </IconButton>
+        </Grid>
+      </Grid>
+    );
+  }
+
 export default function Keeb() {
   const [input, setInput] = useState("");
   const [layout, setLayout] = useState("default");
   const [songTitle, setSongTitle] = useState("");
   const [titleBoxActive, setTitleBoxActive] = useState(false);
-  const keyboard = useRef();
 
   // synth initialization
   JZZ.synth.Tiny.register("Synth");
@@ -94,80 +166,7 @@ export default function Keeb() {
       });
   };
 
-  function FunctionRow() {
-    return (
-      <React.Fragment>
-        <Grid item container direction="row">
-          <Grid item xs={10} style={{}} py={2}>
-            <TextField
-              id="title-textfield"
-              type="string"
-              label="Title"
-              variant="standard"
-              autoComplete="off"
-              fullWidth={true}
-              onChange={onChangeTitle}
-              onFocus={() => setTitleBoxActive(true)}
-              onBlur={() => setTitleBoxActive(false)}
-            />
-          </Grid>
-
-          <Grid item xs={1} style={{ textAlign: "center" }} alignItems="center">
-            <IconButton
-              onClick={saveSongData}
-              size="large"
-              disabled={!(input.length && songTitle.length)}
-            >
-              <SaveIcon fontSize="inherit" />
-            </IconButton>
-          </Grid>
-
-          <Grid item xs={1} style={{ textAlign: "center" }}>
-            <IconButton
-              onClick={stitchInput}
-              size="large"
-              disabled={!songTitle.length}
-            >
-              <PlayCircleIcon fontSize="inherit" />
-            </IconButton>
-          </Grid>
-        </Grid>
-      </React.Fragment>
-    );
-  }
-
-  function KeyboardRow() {
-    return (
-      <React.Fragment>
-        <Grid item container direction="row">
-          <Grid item xs={12} style={{ backgroundColor: "red" }}>
-            <div id="keyboard-sound">
-              <input
-                value={input}
-                placeholder={"Tap on the virtual keyboard to start"}
-                className="input-box"
-                disabled
-              />
-              <Keyboard
-                keyboardRef={(r) => (keyboard.current = r)}
-                layoutName={layout}
-                onKeyPress={onKeyPress}
-                physicalKeyboardHighlight={true}
-                physicalKeyboardHighlightPress={true}
-                buttonTheme={[
-                  {
-                    class: "enabled-keys",
-                    buttons: "A S D F a s d f J K L : j k l ; {bksp}",
-                  },
-                ]}
-                inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
-              />
-            </div>
-          </Grid>
-        </Grid>
-      </React.Fragment>
-    );
-  }
+ 
 
   return (
     <div style={{ margin: "25px" }}>
@@ -184,8 +183,10 @@ export default function Keeb() {
           display: "flex",
         }}
       >
-        <FunctionRow />
-        <KeyboardRow />
+
+        <UtilityRow onChangeTitleFunction={onChangeTitle} titleBoxStatusFunction={setTitleBoxActive} saveSongFunction={saveSongData} stichInputFunction={stitchInput} inputState={input} songTitleState={songTitle} />
+
+        <KeyboardRow input={input} layout={layout} onKeyPress={onKeyPress} />
       </Grid>
     </div>
   );
