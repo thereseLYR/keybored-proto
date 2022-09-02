@@ -4,10 +4,11 @@
   --mustard-yellow: #E8AA42;
   --beige-yellow: #FFE5B4;
   --pure-white: #FFFFFF;
+  --floral-white: #FFFBF1;
 }
 
 body {
-  background-color: white;
+  background-color: var(--floral-white);
   height: 100%;
   margin: 0;
   padding: 0;

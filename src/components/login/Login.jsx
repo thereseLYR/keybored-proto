@@ -54,6 +54,7 @@ export default function Login() {
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          style={{ backgroundColor: "white" }}
         />
         <TextField
           id="password"
@@ -61,6 +62,7 @@ export default function Login() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          style={{ backgroundColor: "white" }}
         />
         <Button
           variant="contained"
