@@ -61,6 +61,7 @@ function UtilityRow(props) {
           onChange={onChangeTitleFunction}
           onFocus={() => titleBoxStatusFunction(true)}
           onBlur={() => titleBoxStatusFunction(false)}
+          value={songTitleState}
         />
       </Grid>
 
