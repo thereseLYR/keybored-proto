@@ -30,7 +30,7 @@ export default function Register() {
 
   const handleRegistration = () => {
     axios
-      .post("/register", { username: username, password: password })
+      .post("/api/register", { username: username, password: password })
       .then((res) => {
         console.log(res);
         // setUser?

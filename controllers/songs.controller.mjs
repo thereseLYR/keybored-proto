@@ -1,14 +1,38 @@
-export default function initSongsController(db, userController) {
-  const getAllSongs = async (request, response) => {
+class SongController {
+  constructor(db, userController) {
+    this.db = db;
+    this.user = userController;
+  }
+
+  getAllSongs = async (request, response) => {
     try {
-      const songs = await db.Songs.findAll();
-      response.send({ songs });
-    } catch (error) {
-      console.log(error);
+      const songs = await this.db.Songs.findAll();
+      // console.log(songs);
+      response.json({ result: songs, message: "get songs successful" });
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const postNewSong = (request, response) => {
+  getSongByID = async (request, response) => {
+    const songID = request.params.song_id;
+    try {
+      const song = await this.db.Songs.findOne({
+        where: {
+          id: songID,
+        },
+      });
+      // console.log(song);
+      response.json({
+        result: song,
+        message: "successful get song from songId",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  postNewSong = (request, response) => {
     // currently adds a new row every time the save button is clicked
     // to upgrade to findOrCreate later
     const userId = request.cookies.user_id;
@@ -26,7 +50,7 @@ export default function initSongsController(db, userController) {
     }
 
     // 2. if userId and sessionHash are not nil, validate them
-    if (!userController.verifyUser(request, response)) {
+    if (!this.user.verifyUser(request, response)) {
       response.status(401).json({
         error: `User not authorized to perform this action, invalid userId: ${userId} and sessionHash: ${sessionHash}`,
       });
@@ -35,7 +59,7 @@ export default function initSongsController(db, userController) {
 
     // 3. save song to db when userId and sessionHash is correct
     try {
-      const result = db.Songs.create({
+      const result = this.db.Songs.create({
         title: body.title,
         songData: body.songData,
         creatorId: parseInt(userId),
@@ -46,9 +70,6 @@ export default function initSongsController(db, userController) {
       console.error(err);
     }
   };
-
-  return {
-    getAllSongs,
-    postNewSong,
-  };
 }
+
+export default SongController;

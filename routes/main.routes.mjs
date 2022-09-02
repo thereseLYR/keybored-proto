@@ -7,6 +7,6 @@ const main = (request, response) => {
   response.sendFile(resolve("dist", "main.html"));
 };
 
-router.get("*", main);
+router.get("/*", main);
 
 export default router;

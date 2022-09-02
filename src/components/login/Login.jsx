@@ -30,7 +30,7 @@ export default function Login() {
 
   const handleLogin = () => {
     axios
-      .post("/login", { username: username, password: password })
+      .post("/api/login", { username: username, password: password })
       .then((res) => {
         console.log(res);
         // setUser?

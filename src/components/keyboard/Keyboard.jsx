@@ -3,8 +3,10 @@ import SaveIcon from "@mui/icons-material/Save";
 import { Button, IconButton, TextField } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Keyboard from "react-simple-keyboard";
+import Logo from "../Logo.jsx";
+import PlaylistDrawer from "./PlaybackDrawer.jsx";
 
 function KeyboardRow(props) {
   const { input, layout, onKeyPress } = props;
@@ -38,46 +40,54 @@ function KeyboardRow(props) {
   );
 }
 
- function UtilityRow(props) {
-  const {onChangeTitleFunction, titleBoxStatusFunction, saveSongFunction, stitchInputFunction, inputState, songTitleState} = props
-    return (
-      <Grid item container direction="row">
-        <Grid item xs={10} style={{}} py={2}>
-          <TextField
-            id="title-textfield"
-            type="string"
-            label="Title"
-            variant="standard"
-            autoComplete="off"
-            fullWidth={true}
-            onChange={onChangeTitleFunction}
-            onFocus={() => titleBoxStatusFunction(true)}
-            onBlur={() => titleBoxStatusFunction(false)}
-          />
-        </Grid>
-
-        <Grid item xs={1} style={{ textAlign: "center" }} alignItems="center">
-          <IconButton
-            onClick={saveSongFunction}
-            size="large"
-            disabled={!(inputState.length && songTitleState.length)}
-          >
-            <SaveIcon fontSize="inherit" />
-          </IconButton>
-        </Grid>
-
-        <Grid item xs={1} style={{ textAlign: "center" }}>
-          <IconButton
-            onClick={stitchInputFunction}
-            size="large"
-            disabled={!songTitleState.length}
-          >
-            <PlayCircleIcon fontSize="inherit" />
-          </IconButton>
-        </Grid>
+function UtilityRow(props) {
+  const {
+    onChangeTitleFunction,
+    titleBoxStatusFunction,
+    saveSongFunction,
+    stitchInputFunction,
+    inputState,
+    songTitleState,
+  } = props;
+  return (
+    <Grid item container direction="row">
+      <Grid item xs={10} style={{}} py={2}>
+        <TextField
+          id="title-textfield"
+          type="string"
+          label="Title"
+          variant="standard"
+          autoComplete="off"
+          fullWidth={true}
+          onChange={onChangeTitleFunction}
+          onFocus={() => titleBoxStatusFunction(true)}
+          onBlur={() => titleBoxStatusFunction(false)}
+          value={songTitleState}
+        />
       </Grid>
-    );
-  }
+
+      <Grid item xs={1} style={{ textAlign: "center" }} alignItems="center">
+        <IconButton
+          onClick={saveSongFunction}
+          size="large"
+          disabled={!(inputState.length && songTitleState.length)}
+        >
+          <SaveIcon fontSize="inherit" />
+        </IconButton>
+      </Grid>
+
+      <Grid item xs={1} style={{ textAlign: "center" }}>
+        <IconButton
+          onClick={stitchInputFunction}
+          size="large"
+          disabled={!songTitleState.length}
+        >
+          <PlayCircleIcon fontSize="inherit" />
+        </IconButton>
+      </Grid>
+    </Grid>
+  );
+}
 
 export default function Keeb() {
   const [input, setInput] = useState("");
@@ -158,15 +168,13 @@ export default function Keeb() {
     console.log(postPayload);
 
     axios
-      .post("/songs", postPayload)
-      // .then(setSongTitle(""))
+      .post("/api/songs", postPayload)
+      .then(setSongTitle(""))
       .catch((err) => {
         console.log(err);
         alert("Please register an account to save your work");
       });
   };
-
- 
 
   return (
     <div style={{ margin: "25px" }}>
@@ -174,7 +182,6 @@ export default function Keeb() {
         container
         spacing={0}
         direction="column"
-        justifyContent="center"
         alignItems="center"
         style={{
           height: "100%",
@@ -183,10 +190,19 @@ export default function Keeb() {
           display: "flex",
         }}
       >
-
-        <UtilityRow onChangeTitleFunction={onChangeTitle} titleBoxStatusFunction={setTitleBoxActive} saveSongFunction={saveSongData} stitchInputFunction={stitchInput} inputState={input} songTitleState={songTitle} />
-
+        <Logo />
+        <div id="div-spacing"></div>
+        <UtilityRow
+          onChangeTitleFunction={onChangeTitle}
+          titleBoxStatusFunction={setTitleBoxActive}
+          saveSongFunction={saveSongData}
+          stitchInputFunction={stitchInput}
+          inputState={input}
+          songTitleState={songTitle}
+        />
         <KeyboardRow input={input} layout={layout} onKeyPress={onKeyPress} />
+        <div id="div-spacing"></div>
+        <PlaylistDrawer setSongTitle={setSongTitle} setInput={setInput} />
       </Grid>
     </div>
   );
