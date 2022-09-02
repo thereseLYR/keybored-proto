@@ -32,14 +32,12 @@ class SongController {
     }
   };
 
-  postNewSong = (request, response) => {
+  postNewSong = async (request, response) => {
     // currently adds a new row every time the save button is clicked
     // to upgrade to findOrCreate later
     const userId = request.cookies.user_id;
     const sessionHash = request.cookies.logged_in;
     const body = request.body;
-    console.log(parseInt(userId));
-    console.log(`userId: ${userId}, sessionHash: ${sessionHash}`);
 
     // 1. check if userId and sessionHash are nil, throw error, disable song saving
     if (!(userId && sessionHash)) {
@@ -59,13 +57,31 @@ class SongController {
 
     // 3. save song to db when userId and sessionHash is correct
     try {
-      const result = this.db.Songs.create({
-        title: body.title,
-        songData: body.songData,
-        creatorId: parseInt(userId),
+      const foundSong = await this.db.Songs.findOne({
+        where: {
+          title: body.title,
+          creatorId: parseInt(userId),
+        },
       });
-      console.log("postNewSong result: ", result.toJSON());
-      response.send(`new song saved successfully with song id: ${result.id}`);
+
+      if (foundSong === null) {
+        const newSong = await this.db.Songs.create({
+          title: body.title,
+          songData: body.songData,
+          creatorId: parseInt(userId),
+        });
+        response.json({ song: newSong, created: true });
+        return;
+      }
+
+      const updatedSong = await this.db.Songs.update(
+        {
+          songData: body.songData,
+        },
+        { where: { title: body.title, creatorId: parseInt(userId) } }
+      );
+      response.json({ song: updatedSong, created: false });
+      return;
     } catch (err) {
       console.error(err);
     }
