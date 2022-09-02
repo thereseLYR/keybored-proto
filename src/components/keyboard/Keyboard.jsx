@@ -94,30 +94,23 @@ export default function Keeb() {
       });
   };
 
-// try to chuck EVERYTHING in a grid later
-
+  // try to chuck EVERYTHING in a grid later
   return (
-    <div className="simple-keyboard">
+    <div>
       <Grid
         container
-        spacing={2}
-        sx={{
-          my: 2,
-          p: 2,
-        }}
         direction="row"
-        alignItems="center"
         justifyContent="center"
-        style={{ backgroundColor: "purple" }}
+        alignItems="center"
+        style={{
+          backgroundColor: "teal",
+          height: "100%",
+          display: "flex",
+          minHeight: "100vh",
+          maxWidth: "100%",
+        }}
       >
-        <Grid
-          item
-          xs={10}
-          // direction="column"
-          justifyContent="center"
-          alignItems="center"
-          style={{ backgroundColor: "yellow" }}
-        >
+        <Grid item xs={10} style={{ backgroundColor: "yellow" }}>
           <TextField
             id="title-textfield"
             type="string"
@@ -130,13 +123,12 @@ export default function Keeb() {
             onBlur={() => setTitleBoxActive(false)}
           />
         </Grid>
+
         <Grid
           item
-          xs
-          // direction="column"
-          justifyContent="center"
+          xs={1}
+          style={{ backgroundColor: "blue", textAlign: "center" }}
           alignItems="center"
-          style={{ backgroundColor: "blue" }}
         >
           <IconButton
             onClick={saveSongData}
@@ -146,45 +138,46 @@ export default function Keeb() {
             <SaveIcon fontSize="inherit" />
           </IconButton>
         </Grid>
+
         <Grid
           item
-          xs
-          // direction="column"
-          justifyContent="center"
-          alignItems="center"
-          style={{ backgroundColor: "green" }}
+          xs={1}
+          style={{ backgroundColor: "green", textAlign: "center" }}
         >
           <IconButton
             onClick={stitchInput}
-            size="large"why in
+            size="large"
             disabled={!songTitle.length}
           >
             <PlayCircleIcon fontSize="inherit" />
           </IconButton>
         </Grid>
+
+        <Grid item xs={12}>
+          <div id="keyboard-sound">
+            <input
+              value={input}
+              placeholder={"Tap on the virtual keyboard to start"}
+              className="input-box"
+              disabled
+            />
+            <Keyboard
+              keyboardRef={(r) => (keyboard.current = r)}
+              layoutName={layout}
+              onKeyPress={onKeyPress}
+              physicalKeyboardHighlight={true}
+              physicalKeyboardHighlightPress={true}
+              buttonTheme={[
+                {
+                  class: "enabled-keys",
+                  buttons: "A S D F a s d f J K L : j k l ; {bksp}",
+                },
+              ]}
+              inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
+            />
+          </div>
+        </Grid>
       </Grid>
-      <div id="keyboard-sound">
-        <input
-          value={input}
-          placeholder={"Tap on the virtual keyboard to start"}
-          className="input-box"
-          disabled
-        />
-        <Keyboard
-          keyboardRef={(r) => (keyboard.current = r)}
-          layoutName={layout}
-          onKeyPress={onKeyPress}
-          physicalKeyboardHighlight={true}
-          physicalKeyboardHighlightPress={true}
-          buttonTheme={[
-            {
-              class: "enabled-keys",
-              buttons: "A S D F a s d f J K L : j k l ; {bksp}",
-            },
-          ]}
-          inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
-        />
-      </div>
     </div>
   );
 }
