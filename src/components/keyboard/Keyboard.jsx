@@ -94,89 +94,98 @@ export default function Keeb() {
       });
   };
 
-  // try to chuck EVERYTHING in a grid later
+  function FunctionRow() {
+    return (
+      <React.Fragment>
+        <Grid item container direction="row">
+          <Grid item xs={10} style={{}} py={2}>
+            <TextField
+              id="title-textfield"
+              type="string"
+              label="Title"
+              variant="standard"
+              autoComplete="off"
+              fullWidth={true}
+              onChange={onChangeTitle}
+              onFocus={() => setTitleBoxActive(true)}
+              onBlur={() => setTitleBoxActive(false)}
+            />
+          </Grid>
+
+          <Grid item xs={1} style={{ textAlign: "center" }} alignItems="center">
+            <IconButton
+              onClick={saveSongData}
+              size="large"
+              disabled={!(input.length && songTitle.length)}
+            >
+              <SaveIcon fontSize="inherit" />
+            </IconButton>
+          </Grid>
+
+          <Grid item xs={1} style={{ textAlign: "center" }}>
+            <IconButton
+              onClick={stitchInput}
+              size="large"
+              disabled={!songTitle.length}
+            >
+              <PlayCircleIcon fontSize="inherit" />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </React.Fragment>
+    );
+  }
+
+  function KeyboardRow() {
+    return (
+      <React.Fragment>
+        <Grid item container direction="row">
+          <Grid item xs={12} style={{ backgroundColor: "red" }}>
+            <div id="keyboard-sound">
+              <input
+                value={input}
+                placeholder={"Tap on the virtual keyboard to start"}
+                className="input-box"
+                disabled
+              />
+              <Keyboard
+                keyboardRef={(r) => (keyboard.current = r)}
+                layoutName={layout}
+                onKeyPress={onKeyPress}
+                physicalKeyboardHighlight={true}
+                physicalKeyboardHighlightPress={true}
+                buttonTheme={[
+                  {
+                    class: "enabled-keys",
+                    buttons: "A S D F a s d f J K L : j k l ; {bksp}",
+                  },
+                ]}
+                inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
+              />
+            </div>
+          </Grid>
+        </Grid>
+      </React.Fragment>
+    );
+  }
+
   return (
-    <div>
+    <div style={{ margin: "25px" }}>
       <Grid
         container
-        direction="row"
+        spacing={0}
+        direction="column"
         justifyContent="center"
         alignItems="center"
         style={{
-          backgroundColor: "teal",
           height: "100%",
-          display: "flex",
           minHeight: "100vh",
           maxWidth: "100%",
+          display: "flex",
         }}
       >
-        <Grid item xs={10} style={{ backgroundColor: "yellow" }}>
-          <TextField
-            id="title-textfield"
-            type="string"
-            label="Title"
-            variant="standard"
-            autoComplete="off"
-            fullWidth={true}
-            onChange={onChangeTitle}
-            onFocus={() => setTitleBoxActive(true)}
-            onBlur={() => setTitleBoxActive(false)}
-          />
-        </Grid>
-
-        <Grid
-          item
-          xs={1}
-          style={{ backgroundColor: "blue", textAlign: "center" }}
-          alignItems="center"
-        >
-          <IconButton
-            onClick={saveSongData}
-            size="large"
-            disabled={!(input.length && songTitle.length)}
-          >
-            <SaveIcon fontSize="inherit" />
-          </IconButton>
-        </Grid>
-
-        <Grid
-          item
-          xs={1}
-          style={{ backgroundColor: "green", textAlign: "center" }}
-        >
-          <IconButton
-            onClick={stitchInput}
-            size="large"
-            disabled={!songTitle.length}
-          >
-            <PlayCircleIcon fontSize="inherit" />
-          </IconButton>
-        </Grid>
-
-        <Grid item xs={12}>
-          <div id="keyboard-sound">
-            <input
-              value={input}
-              placeholder={"Tap on the virtual keyboard to start"}
-              className="input-box"
-              disabled
-            />
-            <Keyboard
-              keyboardRef={(r) => (keyboard.current = r)}
-              layoutName={layout}
-              onKeyPress={onKeyPress}
-              physicalKeyboardHighlight={true}
-              physicalKeyboardHighlightPress={true}
-              buttonTheme={[
-                {
-                  class: "enabled-keys",
-                  buttons: "A S D F a s d f J K L : j k l ; {bksp}",
-                },
-              ]}
-              inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
-            />
-          </div>
-        </Grid>
+        <FunctionRow />
+        <KeyboardRow />
       </Grid>
     </div>
   );
