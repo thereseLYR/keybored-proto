@@ -1,5 +1,14 @@
+:root {
+  --indigo-blue: #231955;
+  --cobalt-blue: #1F4690;
+  --mustard-yellow: #E8AA42;
+  --beige-yellow: #FFE5B4;
+  --pure-white: #FFFFFF;
+}
+
 body {
-  background-color: white;
+  background-color: var(--pure-white);
+  font-family: 'Bitter', serif;
 }
 
 input {
@@ -23,6 +32,7 @@ input {
   background: rgb(0, 255, 0, 0.7) !important;
 }
 
-.rootpage__button {
-  max-width: 30em;
+.keybored__logo {
+  position: relative;
+  right: 5em;
 }

@@ -8,13 +8,11 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "../Logo.jsx";
 
-const Logo = () => {
+const MainTitle = () => {
   return (
     <Box>
-      <Typography variant="h1" component="h1" textAlign="center">
-        KeyBored
-      </Typography>
       <Typography variant="h3" component="h1" textAlign="center">
         Login
       </Typography>
@@ -45,9 +43,10 @@ export default function Login() {
   };
 
   return (
-    <Container maxWidth="sm" className="keybored-logo">
+    <Container maxWidth="sm" className="keybored-login-container">
       <Stack gap={2}>
         <Logo />
+        <MainTitle />
         <TextField
           id="username"
           label="Username"
