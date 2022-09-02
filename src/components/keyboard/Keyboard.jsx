@@ -169,7 +169,6 @@ export default function Keeb() {
 
     axios
       .post("/api/songs", postPayload)
-      .then(setSongTitle(""))
       .catch((err) => {
         console.log(err);
         alert("Please register an account to save your work");
