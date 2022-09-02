@@ -1,7 +1,10 @@
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import SaveIcon from "@mui/icons-material/Save";
 import { Button, IconButton, TextField } from "@mui/material";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import Keyboard from "react-simple-keyboard";
@@ -94,10 +97,10 @@ export default function Keeb() {
       });
   };
 
-// try to chuck EVERYTHING in a grid later
+  // try to chuck EVERYTHING in a grid later
 
   return (
-    <div className="simple-keyboard">
+    <Container className="simple-keyboard" justifyContent="center">
       <Grid
         container
         spacing={2}
@@ -156,14 +159,14 @@ export default function Keeb() {
         >
           <IconButton
             onClick={stitchInput}
-            size="large"why in
+            size="large"
             disabled={!songTitle.length}
           >
             <PlayCircleIcon fontSize="inherit" />
           </IconButton>
         </Grid>
       </Grid>
-      <div id="keyboard-sound">
+      <div id="keyboard">
         <input
           value={input}
           placeholder={"Tap on the virtual keyboard to start"}
@@ -185,6 +188,6 @@ export default function Keeb() {
           inputPattern={/^[ASDFJKL:asdfjkl;\b]*$/g}
         />
       </div>
-    </div>
+    </Container>
   );
 }
