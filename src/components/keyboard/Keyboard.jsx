@@ -10,7 +10,7 @@ function KeyboardRow(props) {
   const { input, layout, onKeyPress } = props;
   return (
     <Grid item container direction="row">
-      <Grid item xs={12} style={{ backgroundColor: "red" }}>
+      <Grid item xs={12}>
         <div id="keyboard-sound">
           <input
             value={input}
@@ -184,7 +184,7 @@ export default function Keeb() {
         }}
       >
 
-        <UtilityRow onChangeTitleFunction={onChangeTitle} titleBoxStatusFunction={setTitleBoxActive} saveSongFunction={saveSongData} stichInputFunction={stitchInput} inputState={input} songTitleState={songTitle} />
+        <UtilityRow onChangeTitleFunction={onChangeTitle} titleBoxStatusFunction={setTitleBoxActive} saveSongFunction={saveSongData} stitchInputFunction={stitchInput} inputState={input} songTitleState={songTitle} />
 
         <KeyboardRow input={input} layout={layout} onKeyPress={onKeyPress} />
       </Grid>
