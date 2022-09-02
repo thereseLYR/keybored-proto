@@ -45,8 +45,8 @@ if (env === "development") {
     })
   );
 }
-
-const routers = [MainRouter, UserRouter, SongsRouter];
+// main router to the back because express will default to that route if its in front
+const routers = [UserRouter, SongsRouter, MainRouter];
 routers.forEach((router) => app.use("/", router));
 
 // Set Express to listen on the given port

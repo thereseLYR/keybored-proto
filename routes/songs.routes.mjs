@@ -1,14 +1,14 @@
 import { Router } from "express";
-import initSongsController from "../controllers/songs.controller.mjs";
+import SongController from "../controllers/songs.controller.mjs";
 import UserController from "../controllers/users.controller.mjs";
 import db from "../models/index.model.mjs";
 
 const router = Router();
 const userController = new UserController(db);
-const songsController = initSongsController(db, userController);
+const songsController = new SongController(db, userController);
 
-router.post("/songs", songsController.postNewSong);
-router.get("/songs", songsController.getAllSongs);
-// todo: add /songs/song_id to retrieve a specific song
+router.post("/api/songs", songsController.postNewSong);
+router.get("/api/songs", songsController.getAllSongs);
+router.get("/api/songs/:song_id", songsController.getSongByID);
 
 export default router;

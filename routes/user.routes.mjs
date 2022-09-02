@@ -7,7 +7,7 @@ const router = Router();
 
 const userController = new UserController(db);
 
-router.post("/register", userController.postNewUser);
-router.post("/login", userController.postLoginSession);
+router.post("/api/register", userController.postNewUser);
+router.post("/api/login", userController.postLoginSession);
 
 export default router;
