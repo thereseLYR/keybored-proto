@@ -94,19 +94,30 @@ export default function Keeb() {
       });
   };
 
+// try to chuck EVERYTHING in a grid later
+
   return (
-    <div className="simple-keyboard" sx={{ mx: 2 }}>
+    <div className="simple-keyboard">
       <Grid
         container
         spacing={2}
         sx={{
           my: 2,
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
+          p: 2,
         }}
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        style={{ backgroundColor: "purple" }}
       >
-        <Grid item xs={10}>
+        <Grid
+          item
+          xs={10}
+          // direction="column"
+          justifyContent="center"
+          alignItems="center"
+          style={{ backgroundColor: "yellow" }}
+        >
           <TextField
             id="title-textfield"
             type="string"
@@ -119,7 +130,14 @@ export default function Keeb() {
             onBlur={() => setTitleBoxActive(false)}
           />
         </Grid>
-        <Grid item xs>
+        <Grid
+          item
+          xs
+          // direction="column"
+          justifyContent="center"
+          alignItems="center"
+          style={{ backgroundColor: "blue" }}
+        >
           <IconButton
             onClick={saveSongData}
             size="large"
@@ -128,8 +146,19 @@ export default function Keeb() {
             <SaveIcon fontSize="inherit" />
           </IconButton>
         </Grid>
-        <Grid item xs>
-          <IconButton onClick={stitchInput} size="large">
+        <Grid
+          item
+          xs
+          // direction="column"
+          justifyContent="center"
+          alignItems="center"
+          style={{ backgroundColor: "green" }}
+        >
+          <IconButton
+            onClick={stitchInput}
+            size="large"why in
+            disabled={!songTitle.length}
+          >
             <PlayCircleIcon fontSize="inherit" />
           </IconButton>
         </Grid>
