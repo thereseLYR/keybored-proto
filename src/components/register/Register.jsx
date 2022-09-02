@@ -45,6 +45,7 @@ export default function Register() {
   return (
     <Container maxWidth="sm" className="keybored-logo">
       <Stack gap={2}>
+        <div id="div-spacing-register"></div>
         <Logo />
         <MainTitle />
         <TextField

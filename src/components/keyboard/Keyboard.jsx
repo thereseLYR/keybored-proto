@@ -1,12 +1,14 @@
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import SaveIcon from "@mui/icons-material/Save";
-import { Button, IconButton, TextField } from "@mui/material";
+import { IconButton, TextField } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
+import Cookies from "js-cookie";
 import React, { useState } from "react";
 import Keyboard from "react-simple-keyboard";
 import Logo from "../Logo.jsx";
 import PlaylistDrawer from "./PlaybackDrawer.jsx";
+import UserLogout from "./UserLogout.jsx";
 
 function KeyboardRow(props) {
   const { input, layout, onKeyPress } = props;
@@ -178,6 +180,9 @@ export default function Keeb() {
 
   return (
     <div style={{ margin: "25px" }}>
+      <Grid container justifyContent="flex-end">
+        {Cookies.get("user_id") && <UserLogout />}
+      </Grid>
       <Grid
         container
         spacing={0}

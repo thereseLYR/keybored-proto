@@ -60,6 +60,19 @@ class UserController {
     }
   };
 
+  getUserByUserId = async (request, response) => {
+    const userId = request.params.user_id;
+    try {
+      const user = await this.db.Users.findOne({
+        where: { id: userId },
+      });
+      console.log(user);
+      response.json({ result: user });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   verifyUser = async (request, response) => {
     const userId = request.cookies.user_id;
     const sessionHash = request.cookies.logged_in;

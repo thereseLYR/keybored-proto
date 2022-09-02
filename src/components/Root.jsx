@@ -82,6 +82,7 @@ const Home = (props) => {
   console.log(props);
   return (
     <Container maxWidth="sm">
+      <div id="div-spacing"></div>
       <Logo />
       <Box>
         <Stack gap={2}>
